@@ -4,9 +4,10 @@ import {
   TAuthCredentialValidator,
   authCredentialValidator,
 } from "@/lib/validators/account-credential-validator";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn, getProviders } from "next-auth/react";
 import {
   FormControl,
   FormDescription,
@@ -24,6 +25,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const SignUp = () => {
+
   const {
     register,
     handleSubmit,
@@ -37,12 +39,17 @@ const SignUp = () => {
     },
   });
 
+  const [mounted, setMounted] = useState(false)
+useEffect(()=>{setMounted(true)},[])
+if(!mounted)return null
+
+
   const onSubmit = ({
     email,
     password,
     username,
   }: TAuthCredentialValidator) => {
-
+    signIn("github")
   };
   return (
     <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-10">
